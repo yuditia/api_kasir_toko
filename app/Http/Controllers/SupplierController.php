@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Suplier;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class SuplierController extends Controller
+class SupplierController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,11 +15,11 @@ class SuplierController extends Controller
      */
     public function index()
     {
-        $suplier = Suplier::all();
+        $supplier = Supplier::all();
         return response()->json([
             'success'=>true,
-            'message'=>'Semua Data Barang',
-            'data'=>$suplier
+            'message'=>'All data Suppliers',
+            'data'=>$supplier
         ],200);
     }
 
@@ -41,31 +41,27 @@ class SuplierController extends Controller
      */
     public function store(Request $request)
     {
-        //validasi
         $validator = Validator::make($request->all(),[
-            'nama'=>'required',
-            'telpon'=>'required',
-            'alamat'=>'required'
+            'nama'=>'required|max:255',
+            'telpon'=>'required|max:12',
+            'alamat'=>'required|max:255'
         ]);
-        //cek validasi
+
         if($validator->fails()){
             return response()->json($validator->errors(),400);
         }
-        //save ke database
-        $suplier = Suplier::create($validator->validate());
 
-        //sukses save ke db
-        if($suplier){
+        $supplier = Supplier::create($validator->validate());
+        if($supplier){
             return response()->json([
                 'success'=>true,
                 'message'=>'Data berhasil disimpan',
-                'data'=>$suplier
+                'data'=>$supplier
             ],200);
         }
-        //jika gagal
         return response()->json([
             'success'=>false,
-            'message'=>'data gagal tersimpan'
+            'message'=>'Data gagal disimpan'
         ],409);
     }
 
@@ -77,12 +73,11 @@ class SuplierController extends Controller
      */
     public function show($id)
     {
-        $suplier = Suplier::findOrfail($id);
-        //respon show
+        $supplier = Supplier::findOrfail($id);
         return response()->json([
             'success'=>true,
-            'message'=>'Detail data suplier',
-            'data'=>$suplier
+            'message'=>'Detail data supplier',
+            'data'=>$supplier
         ],200);
     }
 
@@ -104,36 +99,30 @@ class SuplierController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Suplier $suplier)
+    public function update(Request $request, $id)
     {
-        //validator
         $validator = Validator::make($request->all(),[
-            'nama'=>'required',
-            'telpon'=>'required',
-            'alamat'=>'required'
+            'nama'=>'required|max:255',
+            'telpon'=>'required|max:12',
+            'alamat'=>'required|max:255'
         ]);
 
-        //cek validasi
         if($validator->fails()){
             return response()->json($validator->errors(),400);
         }
-        //cari id
-        $suplier = Suplier::findOrfail($suplier->id);
 
-        //save ke db
-        if($suplier){
-            $suplier->update($validator->validate());
-            //respon sukses disimpan
+        $supplier = Supplier::findOrfail($id);
+        if($supplier){
+            $supplier->update($validator->validate());
             return response()->json([
                 'success'=>true,
-                'message'=>'Suplier berhasil diupdate',
-                'data'=>$suplier
+                'message'=>'Data supplier berhasil dirubah',
+                'data'=>$supplier
             ],200);
         }
-        //gagal disimpan
         return response()->json([
             'success'=>false,
-            'message'=>'Data gagal diupdate'
+            'message'=>'Data gagal dirubah'
         ],404);
     }
 
@@ -145,19 +134,15 @@ class SuplierController extends Controller
      */
     public function destroy($id)
     {
-        //cari id
-        $suplier = Suplier::findOrfail($id);
-
-        if($suplier){
-            $suplier->delete();
-            //respon setelah delet
+        $supplier = Supplier::findOrfail($id);
+        if($supplier){
+            $supplier->delete();
             return response()->json([
                 'success'=>true,
-                'message'=>'Data suplier berhasil dihapus',
-                'data'=>$suplier
+                'message'=>'Data berhasil dihapus',
+                'data'=>$supplier
             ],200);
         }
-        //respon jika gagal
         return response()->json([
             'success'=>false,
             'message'=>'Data gagal dihapus'

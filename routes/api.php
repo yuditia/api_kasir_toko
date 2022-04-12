@@ -1,6 +1,9 @@
 <?php
 
-use App\Http\Controllers\SuplierController;
+use App\Http\Controllers\CostummerController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,4 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resource('/suplier',SuplierController::class);
+Route::resource('/supplier',SupplierController::class);
+Route::resource('/product',ProductController::class);
+Route::resource('/costummer',CostummerController::class);
+Route::resource('/transaction',TransactionController::class);

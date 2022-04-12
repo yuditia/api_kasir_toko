@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('transaksi_detail', function (Blueprint $table) {
+        Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('transaksi_id');
-            $table->foreignId('barang_id');
-            $table->integer('harga');
-            $table->integer('qty');
+            $table->dateTime('waktu_bayar');
+            $table->integer('total');
+            $table->string('metode_pembayaran');
+            $table->foreignId('transaction_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transaksi_detail');
+        Schema::dropIfExists('payments');
     }
 };

@@ -5,14 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Suplier extends Model
+class Product extends Model
 {
     use HasFactory;
-    protected $table = 'suplier';
     protected $guarded = [''];
 
-    public function barang()
+    public function supplier()
     {
-        return $this->belongsTo(Barang::class);
+        return $this->belongsTo(Supplier::class);
     }
 }
